@@ -178,13 +178,14 @@ function Soulful_CommandHandler(cmd)
 		
 		if string.find(cmd,"autonutor") then 
 		
-			if string.find(string.gsub(cmd,"(autonutor)(%s+)",""),"%w")==nil then 
+			-- if string.find(string.gsub(cmd,"(autonutor)(%s+)",""),"%w")==nil then 
+			if string.find(string.gsub(cmd,"(autonutor)(%s*)",""),"%w")==nil then 
 				SOULFUL_CONFIG["autonutor"] = not SOULFUL_CONFIG["autonutor"];
 				if SOULFUL_CONFIG["language"] == "RU" then Info_Print("Автоответчик: "..Yes_No(SOULFUL_CONFIG["autonutor"])); end;
 				if SOULFUL_CONFIG["language"] == "EN" then Info_Print("Autonutor: "..Yes_No(SOULFUL_CONFIG["autonutor"])); end;
 			else 
 				if string.find(cmd,"help") then 
-					if SOULFUL_CONFIG["language"] == "RU" then Info_Print("[tkg: "); end;
+					if SOULFUL_CONFIG["language"] == "RU" then Info_Print("Помощь: "); end;
 					if SOULFUL_CONFIG["language"] == "EN" then Info_Print("Help: "); end;
 				end;
 				local temp=tonumber(string.sub(cmd, string.len(cmd), string.len(cmd)));
@@ -220,6 +221,7 @@ function Soulful_CommandHandler(cmd)
 				end;
 			end;
 		end;
+		
 		if string.find(cmd,"calc") then 
 			SOULFUL_CONFIG["calculator"] = not SOULFUL_CONFIG["calculator"];
 			if SOULFUL_CONFIG["language"] == "RU" then Info_Print("Калькулятор: "..Yes_No(SOULFUL_CONFIG["calculator"])); end;
