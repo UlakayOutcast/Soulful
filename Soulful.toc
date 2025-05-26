@@ -3,7 +3,7 @@
 ## Notes: Automatic emotions in response to the emotions of other characters and when using abilities.		 Enter /sf for info
 ## Notes Ru: Автоматические эмоции в ответ на эмоции других персонажей и при при использовании способностей.		 Введите /sf для получения информации
 ## Author: Ulukay Outcast.
-## Version: 0.128
+## Version: 0.63
 ## SavedVariables:
 ## SavedVariablesPerCharacter: SOULFUL_CONFIG
 ## Dependencies:
