@@ -1,5 +1,5 @@
 -- SOULFUL_VERSION = 0.60;
-local SOULFUL_VERSION = "0.62"
+local SOULFUL_VERSION = "0.63"
 local function COLOR_GREY(text) if text then return "|caa88aa88"..text.."|r";end;end;
 local function COLOR_BLACK(text) if text then return "|c00000000"..text.."|r";end;end;
 local function COLOR_WHITE(text) if text then return "|cffffffff"..text.."|r";end;end;
