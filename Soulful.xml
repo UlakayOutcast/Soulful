@@ -1,0 +1,17 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+<Script file="Soulful.lua"/>
+	<Frame name="Soulful_core">
+	<Scripts>
+	<OnLoad> 
+		Soulful_OnLoad();  
+	</OnLoad>
+	<OnEvent> 
+		Soulful_OnEvent(event, arg1);
+	</OnEvent>
+	<OnUpdate> 
+		Soulful_OnUpdate();
+	</OnUpdate>
+</Scripts>
+</Frame>
+</Ui>
+
