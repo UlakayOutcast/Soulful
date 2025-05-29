@@ -1,4 +1,4 @@
--- SOULFUL_VERSION = 0.60;
+
 local SOULFUL_VERSION = "0.63"
 local function COLOR_GREY(text) if text then return "|caa88aa88"..text.."|r";end;end;
 local function COLOR_BLACK(text) if text then return "|c00000000"..text.."|r";end;end;
@@ -138,7 +138,8 @@ end;
 
 function Soulful_CommandHandler(cmd)
     if cmd then 
-        if string.len(cmd)==0 then Soulful_Cmd_Info();end;
+		cmd=string.lower(cmd);
+		if string.len(cmd)==0 then Soulful_Cmd_Info();end;
         if string.find(cmd,"help") then Soulful_Cmd_Help();end;
         if string.find(cmd,"reset") then Soulful_Reset_cfg();end;
 		if string.find(cmd,"reaction") then 
@@ -147,25 +148,28 @@ function Soulful_CommandHandler(cmd)
 			if SOULFUL_CONFIG["language"] == "EN" then Info_Print("Reaction: "..Yes_No(SOULFUL_CONFIG["reaction"])); end;
 		end;
 		if string.find(cmd,"action") and not string.find(cmd,"reaction") then 
-			if string.sub(cmd, 7, 11) == "" then 
+			cmd=string.gsub(cmd,"(action)(%s*)","");
+			if tonumber(cmd)==nil then 
 				SOULFUL_CONFIG["action"] = not SOULFUL_CONFIG["action"];
-			else
-				SOULFUL_CONFIG["action factor"] = string.sub(cmd, 8, 11);
+			else 
+				SOULFUL_CONFIG["action factor"] = tonumber(cmd);
 			end;
 			if SOULFUL_CONFIG["language"] == "RU" then Info_Print("Действие: "..Yes_No(SOULFUL_CONFIG["action"]).." | Factor: "..COLOR_GREEN2(SOULFUL_CONFIG["action factor"])); end;
 			if SOULFUL_CONFIG["language"] == "EN" then Info_Print("Action: "..Yes_No(SOULFUL_CONFIG["action"]).." | Factor: "..COLOR_GREEN2(SOULFUL_CONFIG["action factor"])); end;
 		end;
 		if string.find(cmd,"language") then 
-			if string.sub(cmd, 10, 11) == "ru" or string.sub(cmd, 10, 11) == "RU" then SOULFUL_CONFIG["language"] = "RU"; end;
-			if string.sub(cmd, 10, 11) == "en" or string.sub(cmd, 10, 11) == "EN" then SOULFUL_CONFIG["language"] = "EN"; end;
-			if string.sub(cmd, 10, 13) == "auto" then SOULFUL_CONFIG["language auto"] = not SOULFUL_CONFIG["language auto"]; end;
+			cmd=string.gsub(cmd,"(language)(%s*)","");
+			if cmd == "ru" then SOULFUL_CONFIG["language"] = "RU"; end;
+			if cmd == "en" then SOULFUL_CONFIG["language"] = "EN"; end;
+			if cmd == "auto" then SOULFUL_CONFIG["language auto"] = not SOULFUL_CONFIG["language auto"]; end;
 			if SOULFUL_CONFIG["language"] == "RU" then Info_Print("Язык: "..COLOR_GREEN2(SOULFUL_CONFIG["language"])..",".." Авто язык: "..Yes_No(SOULFUL_CONFIG["language auto"])); end;
 			if SOULFUL_CONFIG["language"] == "EN" then Info_Print("Language: "..COLOR_GREEN2(SOULFUL_CONFIG["language"])..",".." Auto language: "..Yes_No(SOULFUL_CONFIG["language auto"])); end;
 		end;
 		if string.find(cmd,"debug") then 
-			if tonumber(string.sub(cmd, 7, 8)) then 
-				if tonumber(string.sub(cmd, 7, 8))>0 then 
-					SOULFUL_CONFIG["debug"]=tonumber(string.sub(cmd, 7, 8));
+			cmd=string.gsub(cmd,"(debug)(%s*)","");
+			if tonumber(cmd) then 
+				if tonumber(cmd)>0 then 
+					SOULFUL_CONFIG["debug"]=tonumber(cmd);
 				else 
 					SOULFUL_CONFIG["debug"]=0;
 				end;
@@ -2228,7 +2232,7 @@ function Soulful_OnEvent(event, arg1)
 	
 	-- SendChatMessage("\124caa88aa88".."Darkest shadows, shelter me.".."\124r","SAY");
 	if AFK and (event == "CHAT_MSG_TEXT_EMOTE" or event == "CHAT_MSG_SAY") and SOULFUL_CONFIG["reaction"] then 
-		if (event == "CHAT_MSG_TEXT_EMOTE" and strfind(arg1," you ")) or (event == "CHAT_MSG_SAY" and strfind(arg1,GetUnitName("player"))) then 
+		if (event == "CHAT_MSG_TEXT_EMOTE" and (strfind(arg1," you ")or strfind(arg1," you."))) or (event == "CHAT_MSG_SAY" and strfind(arg1,GetUnitName("player"))) then 
 		-- if AFK and event == "CHAT_MSG_TEXT_EMOTE" and SOULFUL_CONFIG["reaction"] then db=1;
 			-- if strfind(arg1," you ") then 
 				rnd=math.random(0,9);
@@ -2269,7 +2273,7 @@ function Soulful_OnEvent(event, arg1)
 		if msg[3] then Up_Array(0, 0, "emote", arg2, says..msg[3]);end;
 		if msg[4] then Up_Array(0, 0, "emote", arg2, says..msg[4]);end;
 	end;
-		
+	
 	--AUTONUTOR--
 	if (AFK or SOULFUL_CONFIG["autonutor_rp"]) and event=="CHAT_MSG_WHISPER" and SOULFUL_CONFIG["autonutor"] then Autonutor(arg1, arg2); end;
 	--Calculator--
@@ -2289,6 +2293,29 @@ function Soulful_OnEvent(event, arg1)
 		if SOULFUL_CONFIG["language"] == "RU" then  SCM(COLOR_HUNTER("Запись бросков включена: ")..COLOR_GREEN2(SOULFUL_CONFIG["roll"])..COLOR_HUNTER(" секунд. ")..COLOR_HUNTER("Сделайте roll или rnd для участия."),"say");end;
 		if SOULFUL_CONFIG["language"] == "EN" then  SCM(COLOR_HUNTER("Recording of rolls is on: ")..COLOR_GREEN2(SOULFUL_CONFIG["roll"])..COLOR_HUNTER(" seconds. ")..COLOR_HUNTER("Do a roll or rnd to participate."),"say");end;
 		RollReset();
+	end;
+	
+	--COMMANDS--
+	local SFcmd=string.lower(arg1);
+	if (event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_SAY") and string.find(SFcmd,"soulful") then 
+		SFcmd=string.gsub(SFcmd,"(soulful)(%s*)","");
+		if string.find(SFcmd,"reset") then Soulful_Reset_cfg();end;
+		if string.find(SFcmd,"reaction") then SOULFUL_CONFIG["reaction"] = not SOULFUL_CONFIG["reaction"];end;
+		if string.find(SFcmd,"action") and not string.find(SFcmd,"reaction") then 
+			SFcmd=string.gsub(SFcmd,"(action)(%s*)","");
+			if tonumber(SFcmd)==nil then 
+				SOULFUL_CONFIG["action"] = not SOULFUL_CONFIG["action"];
+			else 
+				SOULFUL_CONFIG["action factor"] = tonumber(SFcmd);
+			end;
+		end;
+		if string.find(SFcmd,"language") then 
+			SFcmd=string.gsub(SFcmd,"(language)(%s*)","");
+			if SFcmd == "ru" then SOULFUL_CONFIG["language"] = "RU";end;
+			if SFcmd == "en" then SOULFUL_CONFIG["language"] = "EN";end;
+			if SFcmd == "auto" then SOULFUL_CONFIG["language auto"] = not SOULFUL_CONFIG["language auto"];end;
+		end;
+		if string.find(SFcmd,"chicken") then DoEmote("chicken");end;
 	end;
 	
 	-- debug
