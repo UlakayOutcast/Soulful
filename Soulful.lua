@@ -100,8 +100,6 @@ function Soulful_OnLoad()
 	SLASH_SOULFUL1 = "/soulful";
 	SLASH_SOULFUL2 = "/sf";
 	
-	Soulful_Emo();
-	
 	Info_Print("Soulful ".. COLOR_GREEN2(SOULFUL_VERSION) .." loaded. /sf");
 end;
 
