@@ -10,6 +10,5 @@
 ## OptionalDeps:
 ## RequiredDeps:
 Soulful.lua
-SoulfulEmo.lua
 Questions.lua
 Soulful.xml
