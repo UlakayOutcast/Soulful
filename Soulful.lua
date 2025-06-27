@@ -390,7 +390,10 @@ function Soulful_OnUpdate()
 					-- MTimer[ix]=MTimer[ix]-1;
 					MTimer[ix]=MTimer[ix]-math.random(1,2);
 				else 
-					Emote[ix]=nil;FromTheName[ix]=nil;MTimer[ix]=nil;
+					Emote[ix]=nil;FromTheName[ix]=nil;
+					Answer[Count]=nil;ToTheName[Count]=nil;
+					Text[Count]=nil;Action[Count]=nil;
+					MTimer[ix]=nil;
 				end;
 			end;
 			ix=ix+1;
@@ -411,28 +414,29 @@ function Soulful_OnUpdate()
 		end;
 		
 		--Oom
-		if not GotBuff("Ability_Rogue_FeignDeath","player") 
-		and UnitClass("player")~="Warrior" and UnitClass("player")~="Rogue" and UnitCreatureType("player")~="Beast" 
-		-- and UnitClass("player")~="Mage"
-		then 
-			if Oom==2 and UnitMana("player") > UnitManaMax("player")*0.35 then Oom=0; end;
-			if UnitExists("party1") then 
-				if Oom==0 then 
-					if UnitClass("player")=="Mage" then 
-						if UnitMana("player") < UnitManaMax("player")*0.03 then Oom=1; end;
-					else 
-						if UnitMana("player") < UnitManaMax("player")*0.1 then Oom=1; end;
+		if SOULFUL_CONFIG["action"] then 
+			if not GotBuff("Ability_Rogue_FeignDeath","player") 
+			and UnitClass("player")~="Warrior" and UnitClass("player")~="Rogue" and UnitCreatureType("player")~="Beast" 
+			then 
+				if Oom==2 and UnitMana("player") > UnitManaMax("player")*0.35 then Oom=0; end;
+				if UnitExists("party1") then 
+					if Oom==0 then 
+						if UnitClass("player")=="Mage" then 
+							if UnitMana("player") < UnitManaMax("player")*0.01 then Oom=1; end;
+						else 
+							if UnitMana("player") < UnitManaMax("player")*0.1 then Oom=1; end;
+						end;
 					end;
-				end;
-				if Oom==1 then Oom=2;
-					-- local rnd=math.random(1,2);
-					-- if rnd==1 then DoEmote("oom",0);end;
-					-- if rnd==2 then 
-						if SOULFUL_CONFIG["language"] =="RU" then SCM("У меня закончилась мана!","say");end;
-						-- if SOULFUL_CONFIG["language"] =="RU" then SCM("У меня закончилась мана!","party");end;
-						if SOULFUL_CONFIG["language"] =="EN" then SCM("I'm out of mana!","say");end;
-						-- if SOULFUL_CONFIG["language"] =="EN" then SCM("I'm out of mana!","party");end;
-					-- end;
+					if Oom==1 then Oom=2;
+						-- local rnd=math.random(1,2);
+						-- if rnd==1 then DoEmote("oom",0);end;
+						-- if rnd==2 then 
+							if SOULFUL_CONFIG["language"] =="RU" then SCM("У меня закончилась мана!","say");end;
+							-- if SOULFUL_CONFIG["language"] =="RU" then SCM("У меня закончилась мана!","party");end;
+							if SOULFUL_CONFIG["language"] =="EN" then SCM("I'm out of mana!","say");end;
+							-- if SOULFUL_CONFIG["language"] =="EN" then SCM("I'm out of mana!","party");end;
+						-- end;
+					end;
 				end;
 			end;
 		end;
@@ -447,15 +451,14 @@ end;
 
 function Up_Array(emo, nam, ans, tar, tex, act) 
 	if emo and nam then --print("emo="..emo);print("nam="..nam.."|tar="..tar);
-		local ix=0; local sw=1; local pla=GetUnitName("player"); local temp=""; 
+		local ix=0; local sw=1; local player=GetUnitName("player"); local temp=""; 
 		if tar == GetUnitName("player") then 
 			if UnitExists("target") then tar=GetUnitName("target");end;
 		end; 
 		if emo~=0 then 
 			while (ix < 100) do 
-				if Emote[ix] and FromTheName[ix] then --temp=Emote[ix];else temp="";end;
-					if strfind(Emote[ix],emo) and (nam == FromTheName[ix] or pla == FromTheName[ix]) then 
-					-- if strfind(emo,temp) and (strfind(nam,temp) or pla == FromTheName[ix]) then 
+				if Emote[ix] and FromTheName[ix] then 
+					if strfind(Emote[ix],emo) and (nam == FromTheName[ix] or player == FromTheName[ix]) then 
 						sw=0;break;
 					end;
 				end;
@@ -469,7 +472,8 @@ function Up_Array(emo, nam, ans, tar, tex, act)
 					ix=ix+1;
 				else 
 					Emote[ix]=emo;
-					if emo~=0 and nam == pla then 
+					if emo~=0 and nam == player then 
+					-- if nam == player then 
 						FromTheName[ix]=tar;
 					else 
 						FromTheName[ix]=nam;
@@ -589,10 +593,12 @@ function Soulful_OnEvent(event, arg1)
 		-- Up_Array(эмоция, от кого, ответ, кому, эмо текст, действие) 
 		if 1 then 
 		if strfind(arg1," wave") and not strfind(arg1,"goodbye") and (strfind(arg1," you") or strfind(arg1,"You ")) then 
-			Up_Array("wave", arg2, "wave", arg2); Up_Array("greet", arg2, "", arg2);
+			Up_Array("wave", arg2, "wave", arg2); 
+			-- Up_Array("greet", arg2, "", arg2);
 		end;
 		if strfind(arg1," greet") and ((strfind(arg1," you") or strfind(arg1,"You ")) or strfind(arg1,"everyone")) then 
-			Up_Array("greet", arg2, "hello", arg2); Up_Array("wave", arg2, "", arg2);
+			Up_Array("greet", arg2, "hello", arg2); 
+			-- Up_Array("wave", arg2, "", arg2);
 		end;
 		-- if strfind(arg1," hails  you.") or strfind(arg1,"You hail") and not strfind(arg1," those around you.") then 
 		if strfind(arg1," hail") and (strfind(arg1," you") or strfind(arg1,"You ")) then 
@@ -886,7 +892,7 @@ function Soulful_OnEvent(event, arg1)
 	-- arg5	-- Damage type in numeric value (1 - physical; 2 - holy; 4 - fire; 8 - nature; 16 - frost; 32 - shadow; 64 - arcane)
 	if not AFK and event == "UNIT_COMBAT" and SOULFUL_CONFIG["action"] then  
 		-- Common -- 
-		if (arg1=="player" and arg2=="WOUND") then 
+		if (arg1=="player" and arg2=="WOUND") and not GotBuff("Spell_Fire_Incinerate") then 
 			db=1;
 			if math.random(1+(AventTimers[2]+AventTimers[1])/factor) <= 1 then 
 				-- if tonumber(arg4) > math.random(UnitHealthMax("player")*0.015, UnitHealthMax("player")*0.033) and tonumber(arg4) <= UnitHealthMax("player")*0.033 then 
@@ -1643,7 +1649,7 @@ function Soulful_OnEvent(event, arg1)
 					if rnd==2 then SCM("Иммолейт Импрувед!","yell");end;
 					if rnd==3 then SCM("Я сожгу вас всех дотла!");end;
 					if rnd==4 then SCM("Dalektharu il dask daku.");end;
-					if rnd==5 then DoEmote("roar");end;
+					if rnd==5 then DoEmote("roar",0);end;
 				end;
 				if SOULFUL_CONFIG["language"] =="EN" then 
 					rnd=math.random(1,5);
@@ -1651,7 +1657,7 @@ function Soulful_OnEvent(event, arg1)
 					if rnd==2 then SCM("Immolate Improved!","yell");end;
 					if rnd==3 then SCM("I will burn you all to the ground!");end;
 					if rnd==4 then SCM("Dalektharu il dask daku.");end;
-					if rnd==5 then DoEmote("roar");end;
+					if rnd==5 then DoEmote("roar",0);end;
 				end;
 				AventTimers[182]=AventTimers[182]+60;AventTimers[101]=AventTimers[101]+30;
 			end;
@@ -1916,11 +1922,11 @@ function Soulful_OnEvent(event, arg1)
 					end;
 				end;
 				if SOULFUL_CONFIG["language"] =="EN" then 
-					rnd=math.random(1,4);
-					if rnd==1 then SCM("makes masterful movements with his weapons.","emote");end;
-					if rnd==2 then DoEmote("roar",0);end;
-					if rnd==3 then SCM("I'll cut you all up!");end; --Я покромсаю вас всех!
-					if rnd==4 then --/script print(UnitRace("player"))
+					rnd=math.random(1,7);
+					if rnd>=1 and rnd<=2 then SCM("makes masterful movements with his weapons.","emote");end;
+					if rnd>=3 and rnd<=4 then DoEmote("roar",0);end;
+					if rnd>=5 and rnd<=6 then SCM("I'll cut you all up!");end; --Я покромсаю вас всех!
+					if rnd>=7 and rnd<=8 then --/script print(UnitRace("player"))
 						if UnitRace("player")=="Human" then SCM("Now I will break your faces!");end;
 						if UnitRace("player")=="NightElf" then SCM("Elune give me strength!");end;
 						if UnitRace("player")=="Dwarf" then SCM("Taste the Thunderbolt!");end; --For Khaz Modan!
@@ -2229,39 +2235,34 @@ function Soulful_OnEvent(event, arg1)
 	
 	
 	-- SendChatMessage("\124caa88aa88".."Darkest shadows, shelter me.".."\124r","SAY");
-	if AFK and (event == "CHAT_MSG_TEXT_EMOTE" or event == "CHAT_MSG_SAY") and SOULFUL_CONFIG["reaction"] then 
-		if (event == "CHAT_MSG_TEXT_EMOTE" and (strfind(arg1," you ")or strfind(arg1," you."))) or (event == "CHAT_MSG_SAY" and strfind(arg1,GetUnitName("player"))) then 
-		-- if AFK and event == "CHAT_MSG_TEXT_EMOTE" and SOULFUL_CONFIG["reaction"] then db=1;
-			-- if strfind(arg1," you ") then 
-				rnd=math.random(0,9);
-				if rnd==0 then Up_Array("afkemote", arg2, "stare", 0)end;
-				if rnd==1 then Up_Array("afkemote", arg2, "drool", 0)end;
-				if rnd==2 then Up_Array("afkemote", arg2, "nosepick", 0)end;
-				if rnd==3 then Up_Array("afkemote", arg2, "silly", 0)end;
-				if rnd==4 then Up_Array("afkemote", arg2, "talkq", 0)end;
-				if rnd==5 then 
-					if SOULFUL_CONFIG["language"]=="RU" then Up_Array("afkemote", arg2, "afksay", arg2, "Извини, "..arg2..", но я сейчас не могу ответить тебе, так как тот, кто контролирует меня, сейчас отсутствует.") end;
-					if SOULFUL_CONFIG["language"]=="EN" then Up_Array("afkemote", arg2, "afksay", arg2, "Sorry, "..arg2..", but I can't answer you right now, as whoever controls me is not there right now.") end;
-					-- Up_Array(arg1, arg2, "afksay", arg2, "Sorry, "..arg2..", but I can't answer you right now, as whoever controls me is not there right now.") --Извини, arg2, но я сейчас не могу ответить тебе, так как тот, кто контролирует меня, сейчас отсутствует.
-				end;
-				if rnd==6 then 
-					if UnitSex("player")==2 then sex="she";end; if UnitSex("player")==3 then sex="he";end;
-					Up_Array("afkemote", arg2, "afkemote", arg2, "cannot answer "..arg2..", as "..sex.." is engaged in something important.") --не может ответить arg2, так как он/она занимается чем то важным.
-				end;
-				if rnd==7 then 
-					Up_Array("afkemote", arg2, "afkemote", arg2, "does not pay attention to "..arg2) --не обращает внимания на arg2
-				end;
-				if rnd==8 then 
-					Up_Array("afkemote", arg2, "afkemote", arg2, "pretends not to notice "..arg2) --делает вид, что не замечает arg2
-				end;
-				if rnd==9 then 
-					Up_Array("afkemote", arg2, "afkemote", arg2, "turns away from "..arg2.." and continues to go about his business.") --отворачивается от arg2 и продолжает заниматься своими делами.
-				end;
-			-- end;
+	if AFK and SOULFUL_CONFIG["reaction"] and ((event == "CHAT_MSG_TEXT_EMOTE" and (strfind(arg1," you ") or strfind(arg1," you."))) or (event == "CHAT_MSG_SAY" and strfind(arg1,GetUnitName("player")))) then db=1;
+		rnd=math.random(0,9);
+		if rnd==0 then Up_Array("afkemote", arg2, "stare", 0)end;
+		if rnd==1 then Up_Array("afkemote", arg2, "drool", 0)end;
+		if rnd==2 then Up_Array("afkemote", arg2, "nosepick", 0)end;
+		if rnd==3 then Up_Array("afkemote", arg2, "silly", 0)end;
+		if rnd==4 then Up_Array("afkemote", arg2, "talkq", 0)end;
+		if rnd==5 then 
+			if SOULFUL_CONFIG["language"]=="RU" then Up_Array("afkemote", arg2, "afksay", arg2, "Извини, "..arg2..", но я сейчас не могу ответить тебе, так как тот, кто контролирует меня, сейчас отсутствует.") end;
+			if SOULFUL_CONFIG["language"]=="EN" then Up_Array("afkemote", arg2, "afksay", arg2, "Sorry, "..arg2..", but I can't answer you right now, as whoever controls me is not there right now.") end;
+			-- Up_Array(arg1, arg2, "afksay", arg2, "Sorry, "..arg2..", but I can't answer you right now, as whoever controls me is not there right now.") --Извини, arg2, но я сейчас не могу ответить тебе, так как тот, кто контролирует меня, сейчас отсутствует.
+		end;
+		if rnd==6 then 
+			if UnitSex("player")==2 then sex="she";end; if UnitSex("player")==3 then sex="he";end;
+			Up_Array("afkemote", arg2, "afkemote", arg2, "cannot answer "..arg2..", as "..sex.." is engaged in something important.") --не может ответить arg2, так как он/она занимается чем то важным.
+		end;
+		if rnd==7 then 
+			Up_Array("afkemote", arg2, "afkemote", arg2, "does not pay attention to "..arg2) --не обращает внимания на arg2
+		end;
+		if rnd==8 then 
+			Up_Array("afkemote", arg2, "afkemote", arg2, "pretends not to notice "..arg2) --делает вид, что не замечает arg2
+		end;
+		if rnd==9 then 
+			Up_Array("afkemote", arg2, "afkemote", arg2, "turns away from "..arg2.." and continues to go about his business.") --отворачивается от arg2 и продолжает заниматься своими делами.
 		end;
 	end;
 	
-	--QUESTION--
+	--QUESTION-- /script local msg=Questions()SendChatMessage(msg[1],"SAY")
 	if not AFK and strfind(arg1,"questions you.") then 
 		msg=Questions();local says="";
 		if SOULFUL_CONFIG["language"] =="RU" then says="говорит: ";end;
