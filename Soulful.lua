@@ -1713,7 +1713,7 @@ function Soulful_OnEvent(event, arg1)
 				end;
 				if SOULFUL_CONFIG["language"] =="EN" then 
 					rnd=math.random(1,3);
-					if rnd==1 then SCM("opens the portal, and a hound of fel hound comes out of it.","emote");end;
+					if rnd==1 then SCM("opens the portal, and a fel hound comes out of it.","emote");end;
 					if rnd==2 then SCM("Come on boy, come here!");end;
 					if rnd==3 then SCM("Gor'om haguul.");end;-- = Meddling dog
 					-- if rnd==4 then DoEmote("pat","pet");end;
