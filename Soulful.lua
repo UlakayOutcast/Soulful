@@ -825,6 +825,14 @@ function Soulful_OnEvent(event, arg1)
 			if rnd==1 then Up_Array("dramatic", arg2, "applaud", arg2);end;
 			if rnd==2 then Up_Array("dramatic", arg2, "wonder", arg2);end;
 		end;
+		
+		if strfind(arg1," tells you to attack ") then 
+			arg1=string.gsub(arg1,arg2,"");arg1=string.gsub(arg1,"(tells you to attack)","");arg1=string.gsub(arg1,"[%s%.]","");
+			rnd=math.random(1,2);
+			if rnd==1 then Up_Array("attacktarget", arg2, "roar", arg1);end;
+			if rnd==2 then Up_Array("attacktarget", arg2, "charge", arg2);end;
+		end;
+		
 		end;
 		
 		-- lick
@@ -1399,11 +1407,17 @@ function Soulful_OnEvent(event, arg1)
 		or (UnitClass("player")~="Warlock" and (arg2=="Unending Breath"))
 		)
 		then db=1;--AventTimers[73]=5;
-			rnd=math.random(1,2);
-			if rnd==1 then DoEmote("frown",0);end;
-			if rnd==2 then 
+			-- rnd=math.random(1,2);
+			-- if rnd==1 then DoEmote("frown",0);end;
+			-- if rnd==2 then 
+				-- if SOULFUL_CONFIG["language"] == "RU" then SCM("Мой бафф "..arg2.." пропал :(","say"); end;
+				-- if SOULFUL_CONFIG["language"] == "EN" then SCM("My buff "..arg2.." is gone :(","say"); end;
+			-- end;
+			if UnitExists("party1") then 
 				if SOULFUL_CONFIG["language"] == "RU" then SCM("Мой бафф "..arg2.." пропал :(","say"); end;
 				if SOULFUL_CONFIG["language"] == "EN" then SCM("My buff "..arg2.." is gone :(","say"); end;
+			else 
+				DoEmote("frown",0);
 			end;
 		end;
 		
@@ -1550,35 +1564,35 @@ function Soulful_OnEvent(event, arg1)
 		if 1 then 
 		
 		if UnitClass("player")=="Warlock" then 
-			if arg1=="AURA_START" and arg2=="Drain Soul" and math.random(1+AventTimers[181]+AventTimers[101]) == 1 and UnitExists("target") then 
-				if GotBuff("Spell_Shadow_Haunting","player") and GotDebuff("Spell_Shadow_Haunting","target") then db=1;
-					if SOULFUL_CONFIG["language"] =="RU" then 
-						rnd=math.random(1,5);
-						if rnd==1 then SCM("пожирает душу "..GetUnitName("target")..".","emote");end;
-						if rnd==2 then SCM("Твоя душа моя, "..GetUnitName("target")..".");end;
-						if rnd==3 then SCM("Я вырву твою душу "..GetUnitName("target").." и скормлю демонам.");end;
-						if rnd==4 then SCM(GetUnitName("target")..", ты пополнишь мою коллекцию душь.");end;
-							-- Shaza-kiel! = Surrender your soul!
-						if rnd==5 then SCM("Shaza-kiel!");end;-- Shaza-kiel! = Surrender your soul!
-					end;
-					if SOULFUL_CONFIG["language"] =="EN" then 
-						rnd=math.random(1,5);
-						if rnd==1 then SCM("devours the soul of "..GetUnitName("target")..".","emote");end;
-						if rnd==2 then SCM("You r soul is mine, "..GetUnitName("target")..".");end;
-						if rnd==3 then SCM("I will tear out your soul "..GetUnitName("target").." and feed the demon.");end;
-						if rnd==4 then SCM(GetUnitName("target")..", you will replenish my collection of souls.");end;
-							-- Shaza-kiel! = Surrender your soul!
-						if rnd==5 then SCM("Shaza-kiel!");end;-- Shaza-kiel! = Surrender your soul!
-					end;
-					AventTimers[181]=AventTimers[181]+60;AventTimers[101]=AventTimers[101]+30;
-				end;
-			end;
-			if arg1=="AURA_END" and arg2=="Drain Soul" then db=1;end;
+			-- if arg1=="AURA_START" and arg2=="Drain Soul" and math.random(1+AventTimers[181]+AventTimers[101]) == 1 and UnitExists("target") then 
+				-- if GotBuff("Spell_Shadow_Haunting","player") and GotDebuff("Spell_Shadow_Haunting","target") then db=1;
+					-- if SOULFUL_CONFIG["language"] =="RU" then 
+						-- rnd=math.random(1,5);
+						-- if rnd==1 then SCM("пожирает душу "..GetUnitName("target")..".","emote");end;
+						-- if rnd==2 then SCM("Твоя душа моя, "..GetUnitName("target")..".");end;
+						-- if rnd==3 then SCM("Я вырву твою душу "..GetUnitName("target").." и скормлю демонам.");end;
+						-- if rnd==4 then SCM(GetUnitName("target")..", ты пополнишь мою коллекцию душь.");end;
+							-- -- Shaza-kiel! = Surrender your soul!
+						-- if rnd==5 then SCM("Shaza-kiel!");end;-- Shaza-kiel! = Surrender your soul!
+					-- end;
+					-- if SOULFUL_CONFIG["language"] =="EN" then 
+						-- rnd=math.random(1,5);
+						-- if rnd==1 then SCM("devours the soul of "..GetUnitName("target")..".","emote");end;
+						-- if rnd==2 then SCM("You r soul is mine, "..GetUnitName("target")..".");end;
+						-- if rnd==3 then SCM("I will tear out your soul "..GetUnitName("target").." and feed the demon.");end;
+						-- if rnd==4 then SCM(GetUnitName("target")..", you will replenish my collection of souls.");end;
+							-- -- Shaza-kiel! = Surrender your soul!
+						-- if rnd==5 then SCM("Shaza-kiel!");end;-- Shaza-kiel! = Surrender your soul!
+					-- end;
+					-- AventTimers[181]=AventTimers[181]+60;AventTimers[101]=AventTimers[101]+30;
+				-- end;
+			-- end;
+			-- if arg1=="AURA_END" and arg2=="Drain Soul" then db=1;end;
 			
 			-- if arg1=="HEAL" and arg2==GetUnitName("player") and math.random(1+(AventTimers[182]+AventTimers[101])/factor) == 1 and UnitExists("target") then 
 				-- if GotDebuff("Spell_Shadow_LifeDrain02","target") then db=1;
 					-- if SOULFUL_CONFIG["language"] =="RU" then 
-						-- rnd=math.random(1,5);
+						-- rnd=math.random(1,10);
 						-- if rnd==1 then SCM("выкачивает жизнь из "..GetUnitName("target")..".","emote");end;
 						-- if rnd==2 then SCM("Я выпью твою жизнь до последней капли, "..GetUnitName("target")..".");end;
 						-- if rnd==3 then SCM("Отдай мне, "..GetUnitName("target")..", свою жизнь.");end;
@@ -1586,7 +1600,7 @@ function Soulful_OnEvent(event, arg1)
 						-- if rnd==5 then SCM("A-rul shach kigon.");end;-- = I will eat your heart
 					-- end;
 					-- if SOULFUL_CONFIG["language"] =="EN" then 
-						-- rnd=math.random(1,5);
+						-- rnd=math.random(1,10);
 						-- if rnd==1 then SCM("siphons life out of "..GetUnitName("target")..".","emote");end;
 						-- if rnd==2 then SCM("I will drink your health to the last drop, "..GetUnitName("target")..".");end;
 						-- if rnd==3 then SCM("Give me, "..GetUnitName("target")..", your life.");end;
@@ -1596,17 +1610,17 @@ function Soulful_OnEvent(event, arg1)
 					-- AventTimers[182]=AventTimers[182]+60;AventTimers[101]=AventTimers[101]+30;
 				-- end;
 			-- end;
-			-- if arg1=="MANA" and arg2==GetUnitName("player") and DMTimer<=0 and UnitExists("target") then 
-				-- if GotDebuff("Spell_Shadow_SiphonMana","target") then 
-					-- if math.random()<0.5 then 
-						-- SCM("siphons energy from "..GetUnitName("target"),"emote");
-					-- else 
-						-- -- SCM(COLOR_BLUE("I will drink all your energy, "..GetUnitName("target")));
-						-- SCM("I will drink all your energy, "..GetUnitName("target"));
-					-- end;
-					-- DMTimer=10+5*math.random(4);
-				-- end;
-			-- end;
+			if arg1=="MANA" and arg2==GetUnitName("player") and DMTimer<=0 and UnitExists("target") then 
+				if GotDebuff("Spell_Shadow_SiphonMana","target") then 
+					if math.random()<0.5 then 
+						SCM("siphons energy from "..GetUnitName("target"),"emote");
+					else 
+						-- SCM(COLOR_BLUE("I will drink all your energy, "..GetUnitName("target")));
+						SCM("I will drink all your energy, "..GetUnitName("target"));
+					end;
+					DMTimer=10+5*math.random(4);
+				end;
+			end;
 			
 			if arg1=="AURA_START" and arg2=="Health Funnel" and math.random(1+(AventTimers[183]+AventTimers[101])/factor) == 1 then db=1;
 				if SOULFUL_CONFIG["language"] =="RU" then 
@@ -1866,48 +1880,37 @@ function Soulful_OnEvent(event, arg1)
 				end;
 			end;
 			if arg1=="AURA_START" and arg2=="Sprint" then db=1;
-				if SOULFUL_CONFIG["language"] =="RU" then 
-					rnd=math.random(1,2);
-					if rnd==1 then SCM("стремительно убегает, сверкая пятками.","emote");end;
-					if rnd==2 then DoEmote("flee",0);end;
-					if rnd==3 then SCM(COLOR_YELLOW("Ты меня не догонишь, хе-хе.."));end;
-				end;
-				if SOULFUL_CONFIG["language"] =="EN" then 
-					rnd=math.random(1,2);
-					if rnd==1 then SCM("is rapidly running away, only the heels sparkling.","emote");end;
-					if rnd==2 then DoEmote("flee",0);end;
-					if rnd==3 then SCM(COLOR_YELLOW("You  won't catch up with me he he.."));end;
-				end;
+				rnd=math.random(1,2);
+				if rnd==1 then DoEmote("flee",0);end;
+				if rnd==2 and SOULFUL_CONFIG["language"] =="RU" then SCM("стремительно убегает, сверкая пятками.","emote");end;
+				if rnd==2 and SOULFUL_CONFIG["language"] =="EN" then SCM("is rapidly running away, only the heels sparkling.","emote");end;
+				if rnd==3 and SOULFUL_CONFIG["language"] =="RU" then SCM("Ты меня не догонишь, хе-хе..");end;
+				if rnd==3 and SOULFUL_CONFIG["language"] =="EN" then SCM("You won't catch up with me he he..");end;
 			end;
 			if arg1=="AURA_START" and arg2=="Evasion" then db=1;
-				if SOULFUL_CONFIG["language"] =="RU" then 
-					rnd=math.random(1,3);
-					if rnd==1 then SCM("делает пируэты и виртуозно уклоняется.","emote");end;
-					if rnd==2 then DoEmote("dance",0);end;
-					if rnd==3 then 
-						if UnitExists("target") then SCM("Ха-ха.. попробуй ударить меня, "..GetUnitName("target").." ты мазила.");
-						else SCM("Ха-ха.. Попробуй ударить меня, мазила.");end; --Ха ХА.. попробуй попади по мне, ты мазила.
-					end;
-				end;
-				if SOULFUL_CONFIG["language"] =="EN" then 
-					rnd=math.random(1,3);
-					if rnd==1 then SCM("does pirouettes and masterfully dodges.","emote");end;
-					if rnd==2 then DoEmote("dance",0);end;
-					if rnd==3 then 
-						if UnitExists("target") and not UnitIsPlayer("target") then SCM("HaHA.. try to hit me, "..GetUnitName("target")..", you muff.");
-						else SCM("HaHA.. try to hit me, muff.");end; --Ха ХА.. попробуй попади по мне, мазила.
-					end;
-				end;
+				rnd=math.random(1,3);
+				if rnd==1 then DoEmote("dance",0);end;
+				if rnd==2 and SOULFUL_CONFIG["language"] =="RU" then SCM("делает пируэты и виртуозно уклоняется.","emote");end;
+				if rnd==2 and SOULFUL_CONFIG["language"] =="EN" then SCM("does pirouettes and masterfully dodges.","emote");end;
+				if rnd==3 and SOULFUL_CONFIG["language"] =="RU" then SCM("Ха-ха.. Попробуй ударить меня, мазила.");end;
+				if rnd==3 and SOULFUL_CONFIG["language"] =="EN" then SCM("HaHA.. try to hit me, muff.");end;
 			end;
 			if arg1=="AURA_END" and arg2=="Evasion" then DoEmote("sigh",0);db=1;
 			end;
-			if arg1=="AURA_START" and arg2=="Blade Flurry" then db=1;
-				if SOULFUL_CONFIG["language"] =="RU" then 
-					rnd=math.random(1,4);
-					if rnd==1 then SCM("виртуозно выполняет движения своим оружием.","emote");end;
-					if rnd==2 then DoEmote("roar",0);end;
-					if rnd==3 then SCM("Я покромсаю вас всех!");end; --Я покромсаю вас всех!
-					if rnd==4 then 
+			if arg1=="AURA_START" and arg2=="Blade Flurry" and math.random(1+AventTimers[151]+AventTimers[151])==1 then db=1;
+				AventTimers[151]=AventTimers[151]+300;AventTimers[101]=AventTimers[101]+5;
+				rnd=math.random(1,8);
+				if rnd==1 then DoEmote("roar",0);end;
+				if rnd==2 then 
+					if SOULFUL_CONFIG["language"] =="RU" then SCM("виртуозно выполняет движения своим оружием.","emote");end;
+					if SOULFUL_CONFIG["language"] =="EN" then SCM("makes masterful movements with his weapons.","emote");end;
+				end;
+				if rnd==3 then 
+					if SOULFUL_CONFIG["language"] =="RU" then SCM("Я покромсаю вас всех!");end;
+					if SOULFUL_CONFIG["language"] =="EN" then SCM("I'll cut you all up!");end;
+				end;
+				if rnd==4 then 
+					if SOULFUL_CONFIG["language"] =="RU" then 
 						if UnitRace("player")=="Human" then SCM("Сейчас я ваши морды разобью!");end;
 						if UnitRace("player")=="NightElf" then SCM("Элуна дай мне силу!");end;
 						if UnitRace("player")=="Dwarf" then SCM("Отведай Громобоя!");end; --За Каз Модан
@@ -1920,13 +1923,7 @@ function Soulful_OnEvent(event, arg1)
 						if UnitRace("player")=="Undead" then SCM("Встретимся на том свете!");end;
 						if UnitRace("player")=="Goblin" then SCM("Для вас двойная цена!");end;
 					end;
-				end;
-				if SOULFUL_CONFIG["language"] =="EN" then 
-					rnd=math.random(1,7);
-					if rnd>=1 and rnd<=2 then SCM("makes masterful movements with his weapons.","emote");end;
-					if rnd>=3 and rnd<=4 then DoEmote("roar",0);end;
-					if rnd>=5 and rnd<=6 then SCM("I'll cut you all up!");end; --Я покромсаю вас всех!
-					if rnd>=7 and rnd<=8 then --/script print(UnitRace("player"))
+					if SOULFUL_CONFIG["language"] =="EN" then 
 						if UnitRace("player")=="Human" then SCM("Now I will break your faces!");end;
 						if UnitRace("player")=="NightElf" then SCM("Elune give me strength!");end;
 						if UnitRace("player")=="Dwarf" then SCM("Taste the Thunderbolt!");end; --For Khaz Modan!
@@ -1940,22 +1937,18 @@ function Soulful_OnEvent(event, arg1)
 						if UnitRace("player")=="Goblin" then SCM("Double the price for you!");end;
 					end;
 				end;
-				
 			end;
-			-- if arg1=="AURA_START" and arg2=="Ghostly Strike" then db=1;
-				-- if SOULFUL_CONFIG["language"] =="RU" then 
-					-- rnd=math.random(1,6);
-					-- if rnd==1 then SCM("делает сальто назад.","emote");end;
-					-- if rnd==2 then DoEmote("dance",0);end;
-					-- if rnd==3 then SCM("Хопа..");end;
-				-- end;
-				-- if SOULFUL_CONFIG["language"] =="EN" then 
-					-- rnd=math.random(1,6);
-					-- if rnd==1 then SCM("does a backflip.","emote");end;
-					-- if rnd==2 then DoEmote("dance",0);end;
-					-- if rnd==3 then SCM("Hopa..");end;
-				-- end;
-			-- end;
+			if arg1=="AURA_START" and arg2=="Ghostly Strike" then db=1;
+				rnd=math.random(1,6);
+				-- if rnd==1 then DoEmote("dance",0);end;
+				if rnd==2 then 
+					if SOULFUL_CONFIG["language"] =="RU" then SCM("делает сальто назад.","emote");end;
+					if SOULFUL_CONFIG["language"] =="EN" then SCM("does a backflip.","emote");end;
+				-- if rnd==3 then 
+					-- if SOULFUL_CONFIG["language"] =="RU" then SCM("Хопа..");end;
+					-- if SOULFUL_CONFIG["language"] =="EN" then SCM("Hopa..");
+				end;
+			end;
 			if arg1=="AURA_END" and (arg2=="Stealth" or arg2=="Vanish" or arg2=="Sprint" or arg2=="Blade Flurry" or arg2=="Ghostly Strike") then db=1;
 			end;
 			
@@ -1963,8 +1956,10 @@ function Soulful_OnEvent(event, arg1)
 		
 		if UnitClass("player")=="Druid" then 
 			
-			if arg1=="AURA_START" and (arg2=="Cat Form" or arg2=="Bear Form") then db=1;
-				if math.random(1,10)==1 then DoEmote("bite",0); end;
+			if arg1=="AURA_START" and math.random(1+AventTimers[161]+AventTimers[161])==1 and (arg2=="Cat Form" or arg2=="Bear Form") then db=1;
+				-- if math.random(1,10)==1 then DoEmote("bite",0); end;
+				DoEmote("bite",0);
+				AventTimers[161]=AventTimers[161]+300;AventTimers[101]=AventTimers[101]+5;
 			end;
 			if arg1=="AURA_START" and arg2=="Prowl" then db=1;
 				
