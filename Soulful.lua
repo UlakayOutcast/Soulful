@@ -1390,6 +1390,7 @@ function Soulful_OnEvent(event, arg1)
 		or (UnitClass("player")~="Priest" and (arg2=="Power Word: Fortitude" or arg2=="Prayer of Fortitude" or arg2=="Divine Spirit"))
 		or (UnitClass("player")~="Paladin" and (arg2=="Blessing of Might" or arg2=="Greater Blessing of Might" or arg2=="Blessing of Wisdom" or arg2=="Greater Blessing of Wisdom" or arg2=="Blessing of Kings" or arg2=="Greater Blessing of Kings" or arg2=="Blessing of Sanctuary" or arg2=="Greater Blessing of Sanctuary"))
 		or (UnitClass("player")~="Mage" and (arg2=="Arcane Intellect" or arg2=="Arcane Brilliance"))
+		or (UnitClass("player")~="Warlock" and (arg2=="Unending Breath"))
 		)
 		then db=1;--AventTimers[73]=5;
 			rnd=math.random(1,2);
@@ -1403,7 +1404,7 @@ function Soulful_OnEvent(event, arg1)
 		and ( (UnitClass("player")~="Druid" and (arg2=="Mark of the Wild" or arg2=="Gift of the Wild" or arg2=="Thorns"))
 		or (UnitClass("player")~="Priest" and (arg2=="Power Word: Fortitude" or arg2=="Prayer of Fortitude" or arg2=="Divine Spirit" or arg2=="Shadow Protection"))
 		or (UnitClass("player")~="Paladin" and (arg2=="Blessing of Might" or arg2=="Greater Blessing of Might" or arg2=="Blessing of Wisdom" or arg2=="Greater Blessing of Wisdom" or arg2=="Blessing of Kings" or arg2=="Greater Blessing of Kings" or arg2=="Blessing of Sanctuary" or arg2=="Greater Blessing of Sanctuary"))
-		or (UnitClass("player")~="Mage" and (arg2=="Arcane Intellect"))
+		or (UnitClass("player")~="Mage" and (arg2=="Arcane Intellect" or arg2=="Arcane Brilliance"))
 		or (UnitClass("player")~="Warlock" and (arg2=="Unending Breath"))
 		)
 		then db=1;--AventTimers[73]=5;
