@@ -422,7 +422,7 @@ function Soulful_OnUpdate()
 				if UnitExists("party1") then 
 					if Oom==0 then 
 						if UnitClass("player")=="Mage" then 
-							if UnitMana("player") < UnitManaMax("player")*0.01 then Oom=1; end;
+							if UnitMana("player") < UnitManaMax("player")*0.001 then Oom=1; end;
 						else 
 							if UnitMana("player") < UnitManaMax("player")*0.1 then Oom=1; end;
 						end;
@@ -594,11 +594,11 @@ function Soulful_OnEvent(event, arg1)
 		if 1 then 
 		if strfind(arg1," wave") and not strfind(arg1,"goodbye") and (strfind(arg1," you") or strfind(arg1,"You ")) then 
 			Up_Array("wave", arg2, "wave", arg2); 
-			-- Up_Array("greet", arg2, "", arg2);
+			Up_Array("greet", arg2, "", arg2);
 		end;
 		if strfind(arg1," greet") and ((strfind(arg1," you") or strfind(arg1,"You ")) or strfind(arg1,"everyone")) then 
 			Up_Array("greet", arg2, "hello", arg2); 
-			-- Up_Array("wave", arg2, "", arg2);
+			Up_Array("wave", arg2, "", arg2);
 		end;
 		-- if strfind(arg1," hails  you.") or strfind(arg1,"You hail") and not strfind(arg1," those around you.") then 
 		if strfind(arg1," hail") and (strfind(arg1," you") or strfind(arg1,"You ")) then 
@@ -1361,7 +1361,7 @@ function Soulful_OnEvent(event, arg1)
 		if arg1=="AURA_END_HARMFUL" and (arg2=="Banish") then db=1;--AventTimers[71]=0;
 			-- SCM("","say");
 		end;
-		if arg1=="AURA_START_HARMFUL" and (arg2=="Burning Winds" or arg2=="Immolate" or arg2=="Immolation Trap Effect" or arg2=="Aeltalor Flameshard") and AventTimers[71] == 0 then db=1;AventTimers[71]=30;
+		if arg1=="AURA_START_HARMFUL" and (arg2=="Burning Winds" or arg2=="Immolate" or arg2=="Immolation Trap Effect" or arg2=="Aeltalor Flameshard" or arg2=="Melt Ore") and AventTimers[71] == 0 then db=1;AventTimers[71]=30;
 			rnd=math.random(1,2);
 			if rnd==1 then SCM("is slowly turning to charcoal.","emote");end;
 			if rnd==2 then 
@@ -1636,7 +1636,7 @@ function Soulful_OnEvent(event, arg1)
 					if rnd==2 then SCM("Take my blood - "..GetUnitName("pet") .." and destroy my enemies.");end;
 					if rnd==3 then SCM("Achor she-ki.");end;
 				end;
-				AventTimers[183]=AventTimers[183]+60;AventTimers[101]=AventTimers[101]+30;
+				AventTimers[183]=AventTimers[183]+240;AventTimers[101]=AventTimers[101]+30;
 			end;
 			if arg1=="AURA_END" and arg2=="Health Funnel" then db=1;end;
 			
@@ -1898,19 +1898,19 @@ function Soulful_OnEvent(event, arg1)
 			end;
 			if arg1=="AURA_END" and arg2=="Evasion" then DoEmote("sigh",0);db=1;
 			end;
-			if arg1=="AURA_START" and arg2=="Blade Flurry" and math.random(1+AventTimers[151]+AventTimers[151])==1 then db=1;
+			if arg1=="AURA_START" and arg2=="Adrenaline Rush" and math.random(1+AventTimers[151]+AventTimers[151])==1 then db=1;
 				AventTimers[151]=AventTimers[151]+300;AventTimers[101]=AventTimers[101]+5;
-				rnd=math.random(1,8);
+				rnd=math.random(1,3);
 				if rnd==1 then DoEmote("roar",0);end;
+				-- if rnd==2 then 
+					-- if SOULFUL_CONFIG["language"] =="RU" then SCM("виртуозно выполняет движения своим оружием.","emote");end;
+					-- if SOULFUL_CONFIG["language"] =="EN" then SCM("makes masterful movements with his weapons.","emote");end;
+				-- end;
 				if rnd==2 then 
-					if SOULFUL_CONFIG["language"] =="RU" then SCM("виртуозно выполняет движения своим оружием.","emote");end;
-					if SOULFUL_CONFIG["language"] =="EN" then SCM("makes masterful movements with his weapons.","emote");end;
-				end;
-				if rnd==3 then 
 					if SOULFUL_CONFIG["language"] =="RU" then SCM("Я покромсаю вас всех!");end;
 					if SOULFUL_CONFIG["language"] =="EN" then SCM("I'll cut you all up!");end;
 				end;
-				if rnd==4 then 
+				if rnd==3 then 
 					if SOULFUL_CONFIG["language"] =="RU" then 
 						if UnitRace("player")=="Human" then SCM("Сейчас я ваши морды разобью!");end;
 						if UnitRace("player")=="NightElf" then SCM("Элуна дай мне силу!");end;
