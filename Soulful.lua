@@ -99,6 +99,8 @@ function Soulful_OnLoad()
 	SlashCmdList["SOULFUL"] = Soulful_CommandHandler;
 	SLASH_SOULFUL1 = "/soulful";
 	SLASH_SOULFUL2 = "/sf";
+	SlashCmdList["questions"] = questions_CommandHandler;
+	SLASH_questions1 = "/questions";
 	
 	Info_Print("Soulful ".. COLOR_GREEN2(SOULFUL_VERSION) .." loaded. /sf");
 end;
@@ -245,6 +247,10 @@ function Soulful_CommandHandler(cmd)
 	else 
 		Info_Print("no cmd");
     end;
+end;
+
+function questions_CommandHandler()
+	local msg=Questions()SendChatMessage(msg[1],"SAY")
 end;
 
 function Soulful_Cmd_Info()
