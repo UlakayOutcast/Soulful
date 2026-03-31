@@ -250,7 +250,7 @@ function Soulful_CommandHandler(cmd)
 end;
 
 function questions_CommandHandler()
-	local msg=Questions()SendChatMessage(msg[1],"SAY")
+	local msg=Questions()SendChatMessage(msg,"SAY")
 end;
 
 function Soulful_Cmd_Info()
@@ -2269,13 +2269,15 @@ function Soulful_OnEvent(event, arg1)
 	
 	--QUESTION-- /script local msg=Questions()SendChatMessage(msg[1],"SAY")
 	if not AFK and strfind(arg1,"questions you.") then 
-		msg=Questions();local says="";
-		if SOULFUL_CONFIG["language"] =="RU" then says="говорит: ";end;
-		if SOULFUL_CONFIG["language"] =="EN" then says="says: ";end;
-		if msg[1] then Up_Array(0, 0, "emote", arg2, says..msg[1]);end;
-		if msg[2] then Up_Array(0, 0, "emote", arg2, says..msg[2]);end;
-		if msg[3] then Up_Array(0, 0, "emote", arg2, says..msg[3]);end;
-		if msg[4] then Up_Array(0, 0, "emote", arg2, says..msg[4]);end;
+		msg=Questions();
+		if msg then Up_Array(0, 0, "SAY", arg2, msg);end;
+		-- local says="";
+		-- if SOULFUL_CONFIG["language"] =="RU" then says="говорит: ";end;
+		-- if SOULFUL_CONFIG["language"] =="EN" then says="says: ";end;
+		-- if msg[1] then Up_Array(0, 0, "emote", arg2, says..msg[1]);end;
+		-- if msg[2] then Up_Array(0, 0, "emote", arg2, says..msg[2]);end;
+		-- if msg[3] then Up_Array(0, 0, "emote", arg2, says..msg[3]);end;
+		-- if msg[4] then Up_Array(0, 0, "emote", arg2, says..msg[4]);end;
 	end;
 	
 	--AUTONUTOR--
