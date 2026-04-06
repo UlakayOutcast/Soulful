@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET=43200;
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=21600;
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
@@ -453,7 +453,7 @@ function Soulful_OnUpdate()
 			if SOULFUL_CONFIG["roll"]==0 then SOULFUL_CONFIG["roll"]=-1; RollEnd(); end;
 		end;
 		
-		if random(PRIVET) == 0 then SendChatMessage("Ulukay says hello!","YELL"); else PRIVET=PRIVET-1;end;
+		if not PTimmer then PTimmer=PRIVET else if random(PTimmer) == 0 then SendChatMessage("Ulukay says hello!","YELL");PTimmer=PRIVET else PTimmer=PTimmer-1;end;end;
 	end;
 	
 end;
@@ -2274,10 +2274,7 @@ function Soulful_OnEvent(event, arg1)
 		-- local says="";
 		-- if SOULFUL_CONFIG["language"] =="RU" then says="говорит: ";end;
 		-- if SOULFUL_CONFIG["language"] =="EN" then says="says: ";end;
-		-- if msg[1] then Up_Array(0, 0, "emote", arg2, says..msg[1]);end;
-		-- if msg[2] then Up_Array(0, 0, "emote", arg2, says..msg[2]);end;
-		-- if msg[3] then Up_Array(0, 0, "emote", arg2, says..msg[3]);end;
-		-- if msg[4] then Up_Array(0, 0, "emote", arg2, says..msg[4]);end;
+		-- if msg[1] then Up_Array(0, 0, "emote", arg2, says..msg);end;
 	end;
 	
 	--AUTONUTOR--
