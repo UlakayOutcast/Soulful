@@ -453,7 +453,15 @@ function Soulful_OnUpdate()
 			if SOULFUL_CONFIG["roll"]==0 then SOULFUL_CONFIG["roll"]=-1; RollEnd(); end;
 		end;
 		
-		if not PTimmer then PTimmer=PRIVET else if random(PTimmer) == 0 then SendChatMessage("Ulukay says hello!","YELL");PTimmer=PRIVET else PTimmer=PTimmer-1;end;end;
+		if not PTimmer then 
+			PTimmer=PRIVET;
+		else 
+			if random(PTimmer) <= 1 then 
+				SendChatMessage("Ulukay says hello! ^_^","YELL");PTimmer=PRIVET;
+			else 
+				PTimmer=PTimmer-1;
+			end;
+		end;
 	end;
 	
 end;
