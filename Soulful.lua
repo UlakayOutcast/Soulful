@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=604800;
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=2592000;
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
@@ -459,7 +459,7 @@ function Soulful_OnUpdate()
 			if random(PTimmer) <= 1 then 
 				SendChatMessage("Ulukay says hello! ^_^","YELL");PTimmer=PRIVET;
 			else 
-				PTimmer=PTimmer-1;
+				PTimmer=PTimmer-60;
 			end;
 		end;
 	end;
@@ -1127,11 +1127,11 @@ function Soulful_OnEvent(event, arg1)
 		--Fishing
 		
 		if arg1=="SPELL_CAST" and arg2=="Fishing" and math.random(1+(4+AventTimers[11])/factor) <= 1 then db=1;
-				rnd=math.random(1,14);
-				if rnd>=1 and rnd<=2 then DoEmote("blink",0);end;
-				if rnd>=3 and rnd<=4 then DoEmote("stare",0);end;
-				if rnd>=5 and rnd<=6 then DoEmote("bored",0);end;
-				if rnd>=7 and rnd<=8 then DoEmote("talkq",0);end;
+			rnd=math.random(1,14);
+			if rnd>=1 and rnd<=2 then DoEmote("blink",0);end;
+			if rnd>=3 and rnd<=4 then DoEmote("stare",0);end;
+			if rnd>=5 and rnd<=6 then DoEmote("bored",0);end;
+			if rnd>=7 and rnd<=8 then DoEmote("talkq",0);end;
 			if SOULFUL_CONFIG["language"] =="RU" then 
 				if rnd==9 and rnd<=10 then SCM("пристально смотрит на поплавок, ожидая действий.","emote");end;
 				if rnd==11 then SCM("Эх... Было бы неплохо, если бы я мог поймать золотую рыбку и попросить ее сделать мне сотый уровень.");end;
@@ -1146,6 +1146,7 @@ function Soulful_OnEvent(event, arg1)
 				if rnd==13 then SCM("Eh... it would be nice if I could catch a goldfish and ask it to give me the sword of a thousand truths.");end;
 				if rnd==14 then SCM("Catch a fish, big and small, but preferably a big one... Well, at least somehow.");end;
 			end;
+			if rnd==15 then SCM(Questions());end;
 			AventTimers[11]=AventTimers[11]+30;
 		end;
 		
