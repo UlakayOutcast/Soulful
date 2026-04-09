@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=2592000;
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=5184000;
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
@@ -1127,7 +1127,7 @@ function Soulful_OnEvent(event, arg1)
 		--Fishing
 		
 		if arg1=="SPELL_CAST" and arg2=="Fishing" and math.random(1+(4+AventTimers[11])/factor) <= 1 then db=1;
-			rnd=math.random(1,14);
+			rnd=math.random(1,15);
 			if rnd>=1 and rnd<=2 then DoEmote("blink",0);end;
 			if rnd>=3 and rnd<=4 then DoEmote("stare",0);end;
 			if rnd>=5 and rnd<=6 then DoEmote("bored",0);end;
