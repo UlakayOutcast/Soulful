@@ -457,9 +457,9 @@ function Soulful_OnUpdate()
 			PTimmer=PRIVET;
 		else 
 			if random(PTimmer) <= 1 then 
-				SendChatMessage("Ulukay says hello! ^_^","YELL");PTimmer=PRIVET;
+				SendChatMessage("Ulukay says hello!","YELL");PTimmer=PRIVET;
 			else 
-				PTimmer=PTimmer-60;
+				PTimmer=PTimmer-math.max((PRIVET-PTimmer)/60/60/24,1);
 			end;
 		end;
 	end;
