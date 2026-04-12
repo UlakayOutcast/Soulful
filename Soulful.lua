@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=5184000;
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=20736000;
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
