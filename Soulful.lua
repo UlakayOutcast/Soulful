@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=20736000;
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=86400;--12h
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
@@ -459,7 +459,7 @@ function Soulful_OnUpdate()
 			if random(PTimmer) <= 1 then 
 				SendChatMessage("Ulukay says hello!","YELL");PTimmer=PRIVET;
 			else 
-				PTimmer=PTimmer-math.max((PRIVET-PTimmer)/60/60/24,1);
+				PTimmer=PTimmer-1;
 			end;
 		end;
 	end;
