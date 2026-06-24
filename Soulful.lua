@@ -328,7 +328,7 @@ end;
 -- function BlastSurge() local ix=AventTimers[80];AventTimers[80]=0; return ix; end;
 
 
-local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=172800;--12h
+local Count,SecondsCounter,TimerM,EmotionDelayAnswerTimer,TextDelayAnswerTimer,ActDelayAnswerTimer=0,0,0,0,0,0; local RollTimer=0;local PRIVET,PTimmer=22118400;
 function Soulful_OnUpdate() 
 	if GetTime() >= SecondsCounter then SecondsCounter=GetTime()+1;
 		-- DEFAULT_CHAT_FRAME:AddMessage("Temp1 = "..Temp1)
@@ -1243,7 +1243,9 @@ function Soulful_OnEvent(event, arg1)
 		end;
 		if arg1=="AURA_START_HARMFUL" and (arg2=="Hammer of Justice" or arg2=="Stun" or arg2=="War Stomp" or arg2=="Paralyzing Poison" or arg2=="Crusader's Hammer" 
 		or arg2=="Backhand" or arg2=="Smite Stomp" or arg2=="Ground Tremor" or arg2=="Fist of Ragnaros" or arg2=="Summon Shardlings" or arg2=="Petrify" 
-		or arg2=="Soul Drain" or arg2=="Sacrifice" or arg2=="Burning Winds" or arg2=="Stun Bomb" or arg2=="Charge" or arg2=="Cowering Roar" or arg2=="Spell_Shadow_MindSteal") and AventTimers[58] == 0 then db=1;AventTimers[58]=30;
+		or arg2=="Soul Drain" or arg2=="Sacrifice" or arg2=="Burning Winds" or arg2=="Stun Bomb" or arg2=="Charge" or arg2=="Cowering Roar" or arg2=="Spell_Shadow_MindSteal" 
+		or arg2=="Spell_Shadow_DarkSummoning"
+		) and AventTimers[58] == 0 then db=1;AventTimers[58]=30;
 			SCM("(*_*)");
 		end;
 		if arg1=="AURA_END_HARMFUL" and (arg2=="Hammer of Justice" or arg2=="Stun" or arg2=="War Stomp" or arg2=="Paralyzing Poison" or arg2=="Crusader's Hammer" 
